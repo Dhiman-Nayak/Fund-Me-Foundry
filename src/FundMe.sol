@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: MIT
-// 1. Pragma
-// 2. Imports
+
 pragma solidity 0.8.19;
 
 import {AggregatorV3Interface} from "@chainlink/contracts/src/v0.8/shared/interfaces/AggregatorV3Interface.sol";
@@ -27,6 +26,10 @@ contract FundMe {
     AggregatorV3Interface private s_priceFeed;
 
     // Events (we have none!)
+    constructor(address priceFeed) {
+        s_priceFeed = AggregatorV3Interface(priceFeed);
+        i_owner = msg.sender;
+    }
 
     // Modifiers
     modifier onlyOwner() {
@@ -45,10 +48,6 @@ contract FundMe {
     //// private
     //// view / pure
 
-    constructor(address priceFeed) {
-        s_priceFeed = AggregatorV3Interface(priceFeed);
-        i_owner = msg.sender;
-    }
 
     /// @notice Funds our contract based on the ETH/USD price
     function fund() public payable {
